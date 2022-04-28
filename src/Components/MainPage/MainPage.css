@@ -1,0 +1,41 @@
+.MainPage {
+  display: grid;
+}
+
+.Contact-list {
+  max-width: 1280px;
+  justify-items: center;
+  margin: 30px auto;
+  width: 90vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 25px;
+}
+.Contact-list .Contact-list_items {
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 100%;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.Contact-list .Contact-list_items .Contact-list_items__info {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 20% 1fr;
+  grid-gap: 10px;
+  padding: 10px;
+}
+.Contact-list .Contact-list_items .Contact-list_items__info p {
+  margin: auto;
+  text-align: center;
+}
+.Contact-list .Contact-list_items .Contact-list_items__button-block {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+  padding: 15px;
+}
+
+/*# sourceMappingURL=MainPage.css.map */
