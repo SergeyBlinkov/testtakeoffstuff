@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import './MainPage.css'
+import './Mobile.css'
 import {Button, TextField} from "@mui/material";
 import {useAppDispatch, useAppSelector} from "../../Redux/ReduxStore";
-import {contactChangeBool, contactDataReq} from "../../Redux/ContactDataSlice";
+import {contactChangeBool, contactDataReq, contactDeleteReq, contactUpdateReq} from "../../Redux/ContactDataSlice";
 import {ContactObject, InputEvent} from "../../ExportTypeComponent";
-import {updateContact} from "../../apiRequest";
-
+import CreateUser from "./CreateUser";
 
 
 const MainPage = () => {
@@ -15,12 +15,13 @@ const MainPage = () => {
         dispatch(contactDataReq())
     }, [dispatch])
     const [currData, setCurrData] = useState<ContactObject>({
-        id: Number(),
+        uid: Number(),
         name: '',
         age: Number(),
-        phone: '',
+        phone: Number(),
         isEdit: false
     })
+    const [search, setSearch] = useState('')
     const handleChange = (e: InputEvent) => {
         const {name, value} = e.target
         return setCurrData((prev) => {
@@ -30,11 +31,30 @@ const MainPage = () => {
             }
         })
     }
+    const handleSearch = (e: InputEvent) => {
+        let value = e.target.value
+        return setSearch(value)
+    }
+    const searchFunc = (value: string) => {
+        const searchResult = contactData.data.filter(val => val.name.includes(value) || val.phone.toString().includes(value))
+        return value.length > 0 ? searchResult : contactData.data
+    }
     return (
+        <div className={'wrapper'}>
         <div className={'MainPage'}>
-            <h2>Список пользователей</h2>
-            <div className={'Contact-list'}>{
-                contactData.data.map((val, index) => {
+
+            <CreateUser/>
+            <div className={'dark-line'}></div>
+            <div className={'search-line'}>
+                <h2>Список пользователей</h2>
+                <div className={'search-line_inBar'}>
+                    <p>Поиск по имени и телефону</p>
+                    <TextField  onChange={handleSearch}/>
+                </div>
+            </div>
+            <div className={'Contact-list'}>
+                {contactData.isLoading && <div className={'loader loader_mainPage'}><i className="fa-solid fa-circle-notch loading-pic"></i></div>}{
+                searchFunc(search).map((val, index) => {
                     return <div className={'Contact-list_items'} key={index}>
                         <div className={'Contact-list_items__info'}>
                             <p>Имя</p>
@@ -67,20 +87,19 @@ const MainPage = () => {
                             {!val.isEdit ?
                                 <Button variant={'outlined'} onClick={() => {
                                     setCurrData(val)
-                                    return dispatch(contactChangeBool(index))
+                                    return dispatch(contactChangeBool(val.uid))
                                 }
                                 }>изменить</Button> :
                                 <Button
                                     variant={'outlined'}
-                                    onClick={() => {
-                                    return updateContact(val)
-                                }
-                                }>сохранить</Button>}
-                            <Button variant={'outlined'}>удалить</Button>
+                                    onClick={() => dispatch(contactUpdateReq(currData))
+                                    }>сохранить</Button>}
+                            <Button variant={'outlined'} onClick={()=>dispatch(contactDeleteReq(val.uid))}>удалить</Button>
                         </div>
                     </div>
                 })
             }</div>
+        </div>
         </div>
     );
 };
