@@ -35,7 +35,6 @@ const getContact = async() => {
 function* ContactDataWorker() {
     try {
         const data:DataType = yield getContact()
-        console.log(data)
         yield put(contactDataSuccess(data.data))
     } catch (e) {
         yield put(contactDataFailure(e))

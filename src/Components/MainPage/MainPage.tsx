@@ -11,7 +11,6 @@ import CreateUser from "./CreateUser";
 const MainPage = () => {
     const dispatch = useAppDispatch()
     const contactData = useAppSelector(state => state.contactData)
-    console.log(contactData)
     useEffect(() => {
         dispatch(contactDataReq())
     }, [dispatch])
@@ -53,6 +52,7 @@ const MainPage = () => {
                     <TextField  onChange={handleSearch}/>
                 </div>
             </div>
+            {contactData.errs && <div style={{textAlign:'center',color:'red',marginTop:20}}>{contactData.errs.message}</div>}
             <div className={'Contact-list'}>
                 {contactData.isLoading && <div className={'loader loader_mainPage'}><i className="fa-solid fa-circle-notch loading-pic"></i></div>}{
                 searchFunc(search).map((val, index) => {
