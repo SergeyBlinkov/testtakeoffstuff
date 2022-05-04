@@ -11,6 +11,7 @@ import CreateUser from "./CreateUser";
 const MainPage = () => {
     const dispatch = useAppDispatch()
     const contactData = useAppSelector(state => state.contactData)
+    console.log(contactData)
     useEffect(() => {
         dispatch(contactDataReq())
     }, [dispatch])
