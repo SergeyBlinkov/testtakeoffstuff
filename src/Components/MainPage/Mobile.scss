@@ -1,0 +1,29 @@
+@media only screen and (max-width: 1100px) {
+  .Contact-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media only screen and (max-width: 700px) {
+  .dark-line {
+    margin: 40px auto;
+  }
+  .search-line_inBar {
+  width: 80%;
+  }
+  .Contact-list {
+    grid-template-columns: 1fr;
+    width: 80%;
+  }
+  .CreateUserBar {
+    grid-gap: 20px;
+    h2{
+      line-height: 32px;
+    }
+    button {
+       padding: 10px;
+     }
+    .CreateUserBar_bar {
+      grid-template-columns: 1fr !important;
+    }
+  }
+}

@@ -6,12 +6,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 function App() {
-    // const dispatch = useAppDispatch()
-    // useLayoutEffect(()=> {
-    //     onAuthStateChanged(auth,(user) =>!!user ?
-    //         dispatch(loginUserSuccess(user)) :
-    //        null)
-    // })
   return (
       <BrowserRouter>
           <ToastContainer

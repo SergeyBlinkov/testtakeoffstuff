@@ -1,22 +1,36 @@
 import React, {useState} from 'react';
-import {useAppSelector} from "../../Redux/ReduxStore";
+import {useAppDispatch} from "../../Redux/ReduxStore";
 import {Button, TextField} from "@mui/material";
 import {InputEvent} from "../../ExportTypeComponent";
-import {createContact} from "../../apiRequest";
+import {contactCreateReq} from "../../Redux/ContactDataSlice";
+import * as yup from 'yup'
+
+type NewUser = {
+    name:string;
+    age:number;
+    phone:number;
+}
+const init:NewUser = {
+    name: '',
+    age: Number(),
+    phone: Number()
+}
+
+const createUserSchema = yup.object().shape({
+    name: yup.string().required(),
+    phone: yup.number().required(),
+    age: yup.number().required().positive()
+})
 
 const CreateUser = () => {
-    const contactData = useAppSelector(state=>state.contactData)
-    const [newUser,setNewUser] = useState({
-        id: Number(),
-        name: '',
-        age: Number(),
-        phone: ''
-    })
+    const dispatch = useAppDispatch()
+    const [newUser,setNewUser] = useState(init)
+    const [errs,setErrs] = useState('')
     const createUserFunc = () => {
-        const id = contactData.data.length + 2
-        let copy = {...newUser,
-        id}
-        return createContact(copy)
+         if(createUserSchema.isValidSync(newUser)){
+            dispatch(contactCreateReq(newUser))
+            setErrs('')
+        }   else setErrs('Проверьте правильность введенных данных')
     }
     const handleChange = (e:InputEvent) => {
         const {name,value} = e.target
@@ -30,11 +44,12 @@ const CreateUser = () => {
         <div className={'CreateUserBar'}>
             <h2>Создать нового пользователя</h2>
             <div className={'CreateUserBar_bar'}>
-                <TextField name={'name'} onChange={handleChange}/>
-                <TextField name={'phone'} onChange={handleChange}/>
-                <TextField name={'age'} onChange={handleChange}/>
+                <TextField name={'name'} label={'Имя'} onChange={handleChange} error={!!errs}/>
+                <TextField name={'phone'} label={'Телефон - 8**********'} onChange={handleChange} error={!!errs}/>
+                <TextField name={'age'} label={'Возраст'} onChange={handleChange} error={!!errs}/>
+                {errs.length > 0 && <p className={'errorsLine'}>{errs}</p>}
             </div>
-            <Button onClick={createUserFunc}>Создать нового пользователя</Button>
+            <Button variant={'outlined'} onClick={createUserFunc}>Создать нового пользователя</Button>
         </div>
     );
 };
