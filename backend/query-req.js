@@ -14,6 +14,7 @@ const pool = new Pool({
     return await new Promise((resolve, reject) => {
         pool.query('select * from infoUser', (error,result) => {
             if(error) {
+                console.log('y')
                 reject(error.message);
             }
             resolve(result)

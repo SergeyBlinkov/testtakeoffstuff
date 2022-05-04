@@ -6,13 +6,13 @@ import {ContactObject} from "../ExportTypeComponent";
 interface ContactType {
     isLoading: boolean;
     data: Array<ContactObject>;
-    errs: object;
+    errs: { message:string };
 }
 
 const init: ContactType = {
     isLoading: false,
     data: [],
-    errs: {}
+    errs: {message: ''}
 }
 export const ContactDataSlice = createSlice({
     name: 'contactData',

@@ -25,7 +25,7 @@ type Payload = {
 
 const getContact = async() => {
     const baseURL = 'http://localhost:8000'
-    await axios.get(baseURL + '/contact')
+    return await axios.get(baseURL + '/contact')
         .then((cred) => cred)
         .catch((e) => {
             throw e
